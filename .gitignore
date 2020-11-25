@@ -1,0 +1,12 @@
+
+data/etc-dnsmasq.d/
+!data/etc-dnsmasq.d/README.md
+
+data/etc-pihole/
+!data/etc-pihole/README.md
+!data/etc-pihole/pihole.log
+
+data/var-log/
+!data/var-log/README.md
+
+old

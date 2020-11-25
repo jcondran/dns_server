@@ -1,0 +1,32 @@
+version: "3"
+
+# https://github.com/pi-hole/docker-pi-hole/blob/master/README.md
+
+services:
+  pihole:
+    container_name: dns_server
+    image: dns_server_pihole
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    # For DHCP it is recommended to remove these ports and instead add: network_mode: "host"
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "67:67/udp"
+      - "80:80/tcp"
+      - "443:443/tcp"
+    environment:
+      TZ: 'Australia/Sydney'
+      WEBPASSWORD: '!@34QWer'
+
+    volumes:
+      - './data/etc-pihole/:/etc/pihole/'
+      - './data/etc-dnsmasq.d/:/etc/dnsmasq.d/'
+      # run `touch ./var-log/pihole.log` first unless you like errors
+      - './data/var-log/pihole.log:/var/log/pihole.log'
+    # Recommended but not required (DHCP needs NET_ADMIN)
+    #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
